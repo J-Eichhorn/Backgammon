@@ -38,13 +38,22 @@ class Board:
         # print(board)
 
         for x in range(12):
-            self.columns_ascii.append([self.columns[x].number, '*', '*', '*', '*', '*', '','*', '*', '*', '*', '*', self.columns[23-x].number])
 
-            
-            for piece in self.columns[x].num_pieces:
-                self.columns_ascii[piece]
-            self.columns[23-x].num_pieces
+            self.columns_ascii.append([self.columns[x].number, '', self.columns[23-x].number])
+                
+            top_column = ['*', '*', '*', '*', '*']
+            for i in range(self.columns[x].num_pieces):
+                top_column[i] = 'O'
+            self.columns_ascii[x][1:1] = top_column
+
+
+            bottom_column = ['*', '*', '*', '*', '*']
+            for i in range(self.columns[23 - x].num_pieces):
+                bottom_column[4-i] = 'O'
+            self.columns_ascii[x][-1:-1] = bottom_column  
 
         self.columns_ascii.reverse()
         for row in range(13):
             print('{:^6} {:^6} {:^6} {:^6} {:^6} {:^6} |    | {:^6} {:^6} {:^6} {:^6} {:^6} {:^6}'.format(*[column[row] for column in self.columns_ascii], sep = ","))
+
+        
