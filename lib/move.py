@@ -1,4 +1,5 @@
 import random
+import os
 
 class Move:
 
@@ -91,6 +92,7 @@ class Move:
                 self.dice.remove(dice_input)
             else:
                 self.dice.remove(abs(int(destination_column) - int(origin_column)))
+            self.clear()
             self.board.columns_ascii = []
             self.board.create_board()
 
@@ -127,4 +129,10 @@ class Move:
         for i in range(24):
             self.board.columns[i].set_occupied()
 
-    
+    def clear(self):
+
+        if os.name == 'nt':
+            _ = os.system('cls')
+        else:
+            _ = os.system('clear')
+

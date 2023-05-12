@@ -3,12 +3,21 @@ from board import Board
 from column import Column
 from move import Move
 from player import Player
+import os
 
 
 if __name__ == '__main__':
 
     
+    def clear():
+
+        if os.name == 'nt':
+            _ = os.system('cls')
+        else:
+            _ = os.system('clear')
     
+    clear()
+
     player1 = Player('racquel')
     player2 = Player('josh')
 

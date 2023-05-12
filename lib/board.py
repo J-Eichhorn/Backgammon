@@ -82,6 +82,7 @@ class Board:
         self.columns_ascii.reverse()
         dash = '=' * 90
         triangles = '/\\' * 45
+        
         print(dash)
         print(triangles)
         print(dash)
@@ -92,4 +93,5 @@ class Board:
         print(dash)
         print('{:<}: {}/15  {:>68}: {}/15'.format(Player.player_list[0].name, Player.player_list[0].score, Player.player_list[1].name, Player.player_list[1].score))
         print(dash)
+
         
