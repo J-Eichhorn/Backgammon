@@ -26,6 +26,7 @@ class Move:
             valid_origin = False
             valid_destination = False
 
+            print(f"Your turn {self.player.name}")
             origin_column = input('Which column would you like to move from? ')
 
             possible_destinations = self.generate_possible_destinations(int(origin_column))
@@ -143,16 +144,16 @@ class Move:
     def allowed_off(self):
         if self.player.color == 'red':
             total = 0
-            for i in range(6):
+            for i in range(18):
                 if self.board.columns[i].color_status == 'red':
                     total += self.board.columns[i].num_pieces
-            if total == 15:
+            if total == 0:
                 return True
         elif self.player.color == 'white':
             total = 0
-            for i in range(6):
+            for i in range(18):
                 if self.board.columns[23 - i].color_status == 'white':
-                    total += self.board.columns[i].num_pieces
-            if total == 15:
+                    total += self.board.columns[23 - i].num_pieces
+            if total == 0:
                 return True
 

@@ -33,7 +33,7 @@ class Board:
         self.columns[11].color_status = 'red'
         self.columns[12].num_pieces = 5
         self.columns[12].color_status = 'white'
-        self.columns[22].num_pieces = 3
+        self.columns[22].num_pieces = 10
         self.columns[22].color_status = 'red'
 
         for i in range(24):
