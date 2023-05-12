@@ -1,12 +1,16 @@
 from move import Move
 from column import Column
 from player import Player
+from colorama import init
+from termcolor import colored
 
 class Board:
 
     def __init__(self):
         self.columns = []
         self.columns_ascii = []
+
+        init()
 
         self.create_columns()
         self.starting_position()
@@ -33,8 +37,8 @@ class Board:
         self.columns[11].color_status = 'red'
         self.columns[12].num_pieces = 5
         self.columns[12].color_status = 'white'
-        self.columns[22].num_pieces = 10
-        self.columns[22].color_status = 'red'
+        # self.columns[22].num_pieces = 10
+        # self.columns[22].color_status = 'red'
 
         for i in range(24):
             self.columns[i].set_occupied()
@@ -46,43 +50,50 @@ class Board:
 
             self.columns_ascii.append([self.columns[x].number, '', self.columns[23-x].number])
                 
-            top_column = ['*', '*', '*', '*', '*']
+            top_column = [colored('*'.ljust(4), 'black').rjust(15)] * 5
             if self.columns[x].num_pieces <= 5:
                 for i in range(self.columns[x].num_pieces):
                     if self.columns[x].color_status == 'red':  
-                        top_column[i] = 'O'
+                        top_column[i] = colored('O'.ljust(4), 'red').rjust(15)
                     elif self.columns[x].color_status == 'white':
-                        top_column[i] = 'X'
+                        top_column[i] = colored('O'.ljust(4), 'white').rjust(15)
             else:
                 for i in range(4):
                     if self.columns[x].color_status == 'red':  
-                        top_column[i] = 'O'
+                        top_column[i] = colored('O'.ljust(4), 'red').rjust(15)
                     elif self.columns[x].color_status == 'white':
-                        top_column[i] = 'X'
-                top_column[4] = self.columns[x].num_pieces - 4
+                        top_column[i] = colored('O'.ljust(4), 'white').rjust(15)
+                top_column[4] = colored(self.columns[x].num_pieces - 4, f'{self.columns[x].color_status}')
             self.columns_ascii[x][1:1] = top_column
 
 
-            bottom_column = ['*', '*', '*', '*', '*']
+            bottom_column = [colored('*'.ljust(4), 'black').rjust(15)] * 5
             if self.columns[23 - x].num_pieces <= 5:
                 for i in range(self.columns[23 - x].num_pieces):
                     if self.columns[23-x].color_status == 'red':  
-                        bottom_column[4-i] = 'O'
+                        bottom_column[4-i] = colored('O'.ljust(4), 'red').rjust(15)
                     elif self.columns[23-x].color_status == 'white':
-                        bottom_column[4-i] = 'X'
+                        bottom_column[4-i] = colored('O'.ljust(4), 'white').rjust(15)
             else:
                 for i in range(4):
                     if self.columns[23-x].color_status == 'red':  
-                        bottom_column[4-i] = 'O'
+                        bottom_column[4-i] = colored('O'.ljust(4), 'red').rjust(15)
                     elif self.columns[23-x].color_status == 'white':
-                        bottom_column[4-i] = 'X'
-                bottom_column[0] = self.columns[23 - x].num_pieces - 4
+                        bottom_column[4-i] = colored('O'.ljust(4), 'white').rjust(15)
+                bottom_column[0] = colored(str(self.columns[23 - x].num_pieces - 4).ljust(4), f'{self.columns[23-x].color_status}').rjust(15)
             self.columns_ascii[x][-1:-1] = bottom_column  
 
         self.columns_ascii.reverse()
         dash = '=' * 90
         triangles = '/\\' * 45
-        
+        print('''
+                ____             __                                             
+               / __ )____ ______/ /______ _____ _____ ___  ____ ___  ____  ____ 
+              / __  / __ `/ ___/ //_/ __ `/ __ `/ __ `__ \/ __ `__ \/ __ \/ __ \\
+             / /_/ / /_/ / /__/ ,< / /_/ / /_/ / / / / / / / / / / / /_/ / / / /
+            /_____/\__,_/\___/_/|_|\__, /\__,_/_/ /_/ /_/_/ /_/ /_/\____/_/ /_/ 
+                                  /____/                                        
+        ''')
         print(dash)
         print(triangles)
         print(dash)

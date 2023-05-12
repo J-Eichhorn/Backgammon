@@ -1,10 +1,11 @@
 from player import Player
 import random
 import os
+import time
 
 class Move:
 
-    jail = ['red', 'red', 'white']
+    jail = []
 
     def __init__(self, board, player):
         self.board = board
@@ -24,16 +25,21 @@ class Move:
         while turn < 2:
 
             if len(self.dice) == 2:
+                time.sleep(1)
+                print(f"Your turn, {self.player.name}!")
+                time.sleep(1)
                 print(f'You rolled: {*self.dice,}')
             else:
+                time.sleep(1)
+                print(f'Still your turn, {self.player.name}!')
+                time.sleep(1)
                 print(f'Your remaining roll: ({self.dice[0]})')
 
             valid_origin = False
             valid_destination = False
 
-            print(f"Your turn {self.player.name}")
-
             if self.player.color not in Move.jail:
+                time.sleep(1)
                 origin_column = input('Which column would you like to move from? ')
             else:
                 origin_column = 0
@@ -42,12 +48,13 @@ class Move:
 
             while valid_origin == False:
                 if self.player.color in Move.jail:
-                    print(Move.jail)
                     if self.check_possible_destinations(possible_destinations):
                         Move.jail.remove(self.player.color)
                         valid_origin = True
                     else: 
-                        print('Sorry, no available moves!')
+                        time.sleep(1)
+                        print(f'Sorry {self.player.name}, no available moves!')
+                        time.sleep(2)
                         turn_over = True
                         break
                 elif self.board.columns[int(origin_column) - 1].color_status == self.player.color:
