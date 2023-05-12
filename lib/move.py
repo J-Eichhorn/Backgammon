@@ -42,12 +42,16 @@ class Move:
                 time.sleep(1)
                 origin_column = input('Which column would you like to move from? ')
             else:
-                origin_column = 0
+                if self.player.color == 'red':
+                    origin_column = 0
+                elif self.player.color == 'white':
+                    origin_column = 24
 
             possible_destinations = self.generate_possible_destinations(int(origin_column))
 
             while valid_origin == False:
                 if self.player.color in Move.jail:
+                    print(possible_destinations)
                     if self.check_possible_destinations(possible_destinations):
                         Move.jail.remove(self.player.color)
                         valid_origin = True
