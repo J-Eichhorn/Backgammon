@@ -3,9 +3,9 @@ class Player:
 
     player_list = []
 
-    def __init__(self, name, pcs_finished = 0):
+    def __init__(self, name, score = 0):
         self.name = name
-        self.pcs_finished = pcs_finished
+        self.score = score
 
         Player.player_list.append(self)
         self.choose_color()
