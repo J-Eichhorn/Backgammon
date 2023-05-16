@@ -34,6 +34,10 @@ class Board:
         self.columns[12].num_pieces = 5
         self.columns[12].color_status = 'white'
 
+        for i in range(24):
+            self.columns[i].set_occupied()
+        
+
     def create_board(self):
 
         for x in range(12):

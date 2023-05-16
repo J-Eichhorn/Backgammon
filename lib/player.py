@@ -24,5 +24,7 @@ class Player:
     def choose_color(self):
         if len(Player.player_list) == 1:
             self.color = 'red'
+            self.direction = 'up'
         else:
             self.color = 'white'
+            self.direction = 'down'
