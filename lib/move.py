@@ -1,7 +1,10 @@
+from player import Player
 import random
 import os
 
 class Move:
+
+    jail = ['red', 'red']
 
     def __init__(self, board, player):
         self.board = board
@@ -11,12 +14,15 @@ class Move:
         self.roll_dice()
 
     def roll_dice(self):
-        self.dice.append(random.randint(1,6))
-        self.dice.append(random.randint(1,6))
+        # self.dice.append(random.randint(1,6))
+        # self.dice.append(random.randint(1,6))
+        self.dice = [6,6]
 
     def user_move(self):
         
-        for turn in range(2):
+        turn = 0
+        turn_over = False
+        while turn < 2:
 
             if len(self.dice) == 2:
                 print(f'You rolled: {*self.dice,}')
@@ -27,12 +33,25 @@ class Move:
             valid_destination = False
 
             print(f"Your turn {self.player.name}")
-            origin_column = input('Which column would you like to move from? ')
+
+            if self.player.color not in Move.jail:
+                origin_column = input('Which column would you like to move from? ')
+            else:
+                origin_column = 0
 
             possible_destinations = self.generate_possible_destinations(int(origin_column))
 
             while valid_origin == False:
-                if self.board.columns[int(origin_column) - 1].color_status == self.player.color:
+                if self.player.color in Move.jail:
+                    print(Move.jail)
+                    if self.check_possible_destinations(possible_destinations):
+                        Move.jail.remove(self.player.color)
+                        valid_origin = True
+                    else: 
+                        print('Sorry, no available moves!')
+                        turn_over = True
+                        break
+                elif self.board.columns[int(origin_column) - 1].color_status == self.player.color:
                     if self.check_possible_destinations(possible_destinations):
                         valid_origin = True
                     else:
@@ -42,7 +61,14 @@ class Move:
                     origin_column = input('Please enter valid origin column: ')
                     possible_destinations = self.generate_possible_destinations(int(origin_column))
 
-            destination_column = input('Which column would you like to move to? ')
+            if turn_over == True:
+                turn = 2
+                self.clear()
+                self.board.columns_ascii = []
+                self.board.create_board()
+                break
+            else:
+                destination_column = input('Which column would you like to move to? ')
 
             
             while valid_destination == False:
@@ -84,8 +110,10 @@ class Move:
                         self.board.columns[int(destination_column) - 1].color_status = self.player.color
                         self.maneuver_pieces(origin_column)
 
+                        Move.jail.append([player.color for player in Player.player_list if player.color != self.player.color][0])
+                        print(Move.jail)
+
                         valid_destination = True
-                        #jail behavior
 
                     else:
                         destination_column = input('Please enter valid destination column: ')
@@ -96,9 +124,10 @@ class Move:
                 self.dice.remove(dice_input)
             else:
                 self.dice.remove(abs(int(destination_column) - int(origin_column)))
-            self.clear()
+            # self.clear()
             self.board.columns_ascii = []
             self.board.create_board()
+            turn += 1
 
 
 
