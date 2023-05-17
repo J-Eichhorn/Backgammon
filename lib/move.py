@@ -4,7 +4,7 @@ import os
 
 class Move:
 
-    jail = ['red', 'red']
+    jail = ['red', 'red', 'white']
 
     def __init__(self, board, player):
         self.board = board
@@ -14,9 +14,8 @@ class Move:
         self.roll_dice()
 
     def roll_dice(self):
-        # self.dice.append(random.randint(1,6))
-        # self.dice.append(random.randint(1,6))
-        self.dice = [6,6]
+        self.dice.append(random.randint(1,6))
+        self.dice.append(random.randint(1,6))
 
     def user_move(self):
         
@@ -124,7 +123,7 @@ class Move:
                 self.dice.remove(dice_input)
             else:
                 self.dice.remove(abs(int(destination_column) - int(origin_column)))
-            # self.clear()
+            self.clear()
             self.board.columns_ascii = []
             self.board.create_board()
             turn += 1

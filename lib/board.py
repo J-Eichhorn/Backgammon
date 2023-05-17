@@ -91,6 +91,8 @@ class Board:
         print(dash)
         print(triangles)
         print(dash)
+        print('Pieces in Jail: {}                                                       Pieces in Jail: {}'.format(Move.jail.count('red'), Move.jail.count('white')))
+        print(dash)
         print('{:<}: {}/15  {:>68}: {}/15'.format(Player.player_list[0].name, Player.player_list[0].score, Player.player_list[1].name, Player.player_list[1].score))
         print(dash)
 
