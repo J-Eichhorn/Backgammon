@@ -47,20 +47,23 @@ class Move:
             while valid_destination == False:
 
                 if destination_column == 'off':
-                    possible_destinations = self.generate_possible_destinations(int(origin_column))
-                    if len(self.dice) == 2:
-                        if (possible_destinations[0] > 24 or possible_destinations[0] < 1) or (possible_destinations[1] > 24 or possible_destinations[1] < 1):
-                            dice_input = int(input('Which die roll do you want to use? '))
-                            self.player.score += 1
-                            self.maneuver_pieces(origin_column)
-                            valid_destination = True
-                            
-                    elif len(self.dice) == 1:
-                        if possible_destinations[0] > 24 or possible_destinations[0] < 1:
-                            dice_input = self.dice[0]
-                            self.player.score += 1
-                            self.maneuver_pieces(origin_column)
-                            valid_destination = True
+                    if self.allowed_off():
+                        possible_destinations = self.generate_possible_destinations(int(origin_column))
+                        if len(self.dice) == 2:
+                            if (possible_destinations[0] > 24 or possible_destinations[0] < 1) or (possible_destinations[1] > 24 or possible_destinations[1] < 1):
+                                dice_input = int(input('Which die roll do you want to use? '))
+                                self.player.score += 1
+                                self.maneuver_pieces(origin_column)
+                                valid_destination = True
+                                
+                        elif len(self.dice) == 1:
+                            if possible_destinations[0] > 24 or possible_destinations[0] < 1:
+                                dice_input = self.dice[0]
+                                self.player.score += 1
+                                self.maneuver_pieces(origin_column)
+                                valid_destination = True
+                    else:
+                        destination_column = input('Please enter valid destination column: ')
 
                 elif abs(int(destination_column) - int(origin_column)) in self.dice:
 
@@ -115,7 +118,8 @@ class Move:
         truth_values = []
         for j in possible_destinations:
             if j > 24 or j < 1:
-                truth_values.append(True)
+                if self.allowed_off():
+                    truth_values.append(True)
             elif (self.board.columns[j - 1].color_status == (self.player.color or "None")) or (self.board.columns[j - 1].color_status != self.player.color and self.board.columns[j - 1].occupied == False):
                 truth_values.append(True)
             else:
@@ -135,4 +139,20 @@ class Move:
             _ = os.system('cls')
         else:
             _ = os.system('clear')
+
+    def allowed_off(self):
+        if self.player.color == 'red':
+            total = 0
+            for i in range(6):
+                if self.board.columns[i].color_status == 'red':
+                    total += self.board.columns[i].num_pieces
+            if total == 15:
+                return True
+        elif self.player.color == 'white':
+            total = 0
+            for i in range(6):
+                if self.board.columns[23 - i].color_status == 'white':
+                    total += self.board.columns[i].num_pieces
+            if total == 15:
+                return True
 
