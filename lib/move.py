@@ -12,8 +12,6 @@ class Move:
     def roll_dice(self):
         self.dice.append(random.randint(1,6))
         self.dice.append(random.randint(1,6))
-        
-
 
     def user_move(self):
         
@@ -34,10 +32,8 @@ class Move:
             while valid_origin == False:
                 if self.board.columns[int(origin_column) - 1].color_status == self.player.color:
                     if self.check_possible_destinations(possible_destinations):
-                        print('we are here')
                         valid_origin = True
                     else:
-                        print("you found me")
                         origin_column = input('Please enter valid origin column: ')
                         possible_destinations = self.generate_possible_destinations(int(origin_column))
                 else:
@@ -48,34 +44,41 @@ class Move:
 
             
             while valid_destination == False:
-                
-                if int(destination_column) - int(origin_column) > 0:
-                    check_direction = 'up'
-                else:
-                    check_direction = 'down'
 
-                if abs(int(destination_column) - int(origin_column)) in self.dice:
+                if destination_column == 'off':
+                    possible_destinations = self.generate_possible_destinations(int(origin_column))
+                    if len(self.dice) == 2:
+                        if (possible_destinations[0] > 24 or possible_destinations[0] < 1) or (possible_destinations[1] > 24 or possible_destinations[1] < 1):
+                            dice_input = int(input('Which die roll do you want to use? '))
+                            self.player.score += 1
+                            self.maneuver_pieces(origin_column)
+                            valid_destination = True
+                            
+                    elif len(self.dice) == 1:
+                        if possible_destinations[0] > 24 or possible_destinations[0] < 1:
+                            dice_input = self.dice[0]
+                            self.player.score += 1
+                            self.maneuver_pieces(origin_column)
+                            valid_destination = True
+
+                elif abs(int(destination_column) - int(origin_column)) in self.dice:
+
+                    if int(destination_column) - int(origin_column) > 0:
+                        check_direction = 'up'
+                    else:
+                        check_direction = 'down'
 
                     if (self.board.columns[int(destination_column) - 1].color_status == self.player.color or self.board.columns[int(destination_column) - 1].color_status == "None") and (self.player.direction == check_direction):
-                        print('add')
-                        
                         self.board.columns[int(destination_column) - 1].num_pieces += 1
-                        self.board.columns[int(origin_column) - 1].num_pieces -= 1
-                        if self.board.columns[int(origin_column) - 1].num_pieces == 0:
-                            self.board.columns[int(origin_column) - 1].color_status = "None"
                         self.board.columns[int(destination_column) - 1].color_status = self.player.color
-                        for i in range(24):
-                            self.board.columns[i].set_occupied()
+                        self.maneuver_pieces(origin_column)
+
                         valid_destination = True
 
                     elif (self.board.columns[int(destination_column) - 1].color_status != self.player.color) and (self.board.columns[int(destination_column) - 1].occupied == False) and (self.player.direction == check_direction):
-                        print("doesn't add")
-                        self.board.columns[int(origin_column) - 1].num_pieces -= 1
                         self.board.columns[int(destination_column) - 1].color_status = self.player.color
-                        if self.board.columns[int(origin_column) - 1].num_pieces == 0:
-                            self.board.columns[int(origin_column) - 1].color_status = "None"
-                        for i in range(24):
-                            self.board.columns[i].set_occupied()
+                        self.maneuver_pieces(origin_column)
+
                         valid_destination = True
                         #jail behavior
 
@@ -84,7 +87,10 @@ class Move:
                 else:
                     destination_column = input('Please enter valid destination column: ')
 
-            self.dice.remove(abs(int(destination_column) - int(origin_column)))
+            if destination_column == 'off':
+                self.dice.remove(dice_input)
+            else:
+                self.dice.remove(abs(int(destination_column) - int(origin_column)))
             self.board.columns_ascii = []
             self.board.create_board()
 
@@ -106,10 +112,19 @@ class Move:
         # 2. the destination col is not our color AND not occupied
         truth_values = []
         for j in possible_destinations:
-            if (self.board.columns[j - 1].color_status == (self.player.color or "None")) or (self.board.columns[j - 1].color_status != self.player.color and self.board.columns[j - 1].occupied == False):
+            if j > 24 or j < 1:
+                truth_values.append(True)
+            elif (self.board.columns[j - 1].color_status == (self.player.color or "None")) or (self.board.columns[j - 1].color_status != self.player.color and self.board.columns[j - 1].occupied == False):
                 truth_values.append(True)
             else:
                 truth_values.append(False)
         return any(truth_values)
+    
+    def maneuver_pieces(self, origin_column):
+        self.board.columns[int(origin_column) - 1].num_pieces -= 1
+        if self.board.columns[int(origin_column) - 1].num_pieces == 0:
+            self.board.columns[int(origin_column) - 1].color_status = "None"
+        for i in range(24):
+            self.board.columns[i].set_occupied()
 
     
