@@ -65,20 +65,39 @@ class Move:
             valid_origin = False
             valid_destination = False
 
+            valid_input1 = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24',]
+
+            valid_input2 = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', 'off']
+
             if self.player.color not in Move.jail:
-                time.sleep(1)
-                origin_column = input('Which column would you like to move from? ')
+                if self.check_available_moves() == False:
+                    time.sleep(1)
+                    print(f'Sorry {self.player.name}, no available moves!')
+                    time.sleep(2)
+                    turn_over = True
+                else:
+                    time.sleep(1)
+                    origin_column = input('Which column would you like to move from? ')
+                    while origin_column not in valid_input1:
+                        origin_column = input('Please enter valid origin column: ')                  
             else:
                 if self.player.color == 'red':
                     origin_column = 0
                 elif self.player.color == 'white':
                     origin_column = 25
 
+            if turn_over == True:
+                turn_count = self.turns
+                print('you found me')
+                self.clear()
+                self.board.columns_ascii = []
+                self.board.create_board()
+                break
+
             possible_destinations = self.generate_possible_destinations(int(origin_column))
 
             while valid_origin == False:
                 if self.player.color in Move.jail:
-                    print(possible_destinations)
                     if self.check_possible_destinations(possible_destinations):
                         Move.jail.remove(self.player.color)
                         valid_origin = True
@@ -93,9 +112,13 @@ class Move:
                         valid_origin = True
                     else:
                         origin_column = input('Please enter valid origin column: ')
+                        while origin_column not in valid_input1:
+                            origin_column = input('Please enter valid origin column: ')  
                         possible_destinations = self.generate_possible_destinations(int(origin_column))
                 else:
                     origin_column = input('Please enter valid origin column: ')
+                    while origin_column not in valid_input1:
+                        origin_column = input('Please enter valid origin column: ')  
                     possible_destinations = self.generate_possible_destinations(int(origin_column))
 
             if turn_over == True:
@@ -106,6 +129,8 @@ class Move:
                 break
             else:
                 destination_column = input('Which column would you like to move to? ')
+                while destination_column not in valid_input2:
+                    destination_column = input('Please enter valid destination column: ')
 
             
             while valid_destination == False:
@@ -113,9 +138,21 @@ class Move:
                 if destination_column == 'off':
                     if self.allowed_off():
                         possible_destinations = self.generate_possible_destinations(int(origin_column))
-                        if len(self.dice) == 2:
+                        if len(self.dice) >= 2:
                             if (possible_destinations[0] > 24 or possible_destinations[0] < 1) or (possible_destinations[1] > 24 or possible_destinations[1] < 1):
-                                dice_input = int(input('Which die roll do you want to use? '))
+                                dice_input = input('Which die roll do you want to use? ')
+                                while type(dice_input) != int:
+                                    try:
+                                        int(dice_input)
+                                        dice_input = int(dice_input)
+                                        if dice_input in self.dice:
+                                            break
+                                        else:
+                                            dice_input = input('Please enter a valid die: ')
+                                    except:
+                                        dice_input = input('Please enter a valid die: ')
+
+
                                 self.player.score += 1
                                 self.maneuver_pieces(origin_column)
                                 valid_destination = True
@@ -128,6 +165,8 @@ class Move:
                                 valid_destination = True
                     else:
                         destination_column = input('Please enter valid destination column: ')
+                        while destination_column not in valid_input2:
+                            destination_column = input('Please enter valid destination column: ')
 
                 elif abs(int(destination_column) - int(origin_column)) in self.dice:
 
@@ -193,6 +232,17 @@ class Move:
                 truth_values.append(False)
         return any(truth_values)
     
+    def check_available_moves(self):
+        truth_values = []
+        for column in self.board.columns:
+            if column.color_status == self.player.color:
+                possible_destinations = self.generate_possible_destinations(column.number)
+                if self.check_possible_destinations(possible_destinations) == True:
+                    truth_values.append(True)
+                else:
+                    truth_values.append(False)
+        return any(truth_values)
+    
     def maneuver_pieces(self, origin_column):
         self.board.columns[int(origin_column) - 1].num_pieces -= 1
         if self.board.columns[int(origin_column) - 1].num_pieces == 0:
@@ -221,4 +271,5 @@ class Move:
                     total += self.board.columns[23 - i].num_pieces
             if total == 0:
                 return True
+            
 

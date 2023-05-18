@@ -37,8 +37,7 @@ class Board:
         self.columns[11].color_status = 'red'
         self.columns[12].num_pieces = 5
         self.columns[12].color_status = 'white'
-        self.columns[22].num_pieces = 10
-        self.columns[22].color_status = 'red'
+     
 
         for i in range(24):
             self.columns[i].set_occupied()
@@ -63,7 +62,7 @@ class Board:
                         top_column[i] = colored('O'.ljust(4), 'red').rjust(15)
                     elif self.columns[x].color_status == 'white':
                         top_column[i] = colored('O'.ljust(4), 'white').rjust(15)
-                top_column[4] = colored(self.columns[x].num_pieces - 4, f'{self.columns[x].color_status}')
+                top_column[4] = colored(str(self.columns[x].num_pieces - 4).ljust(4), f'{self.columns[x].color_status}').rjust(15)
             self.columns_ascii[x][1:1] = top_column
 
 
