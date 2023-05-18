@@ -19,7 +19,7 @@ if __name__ == '__main__':
     clear()
 
     player1 = Player('racquel')
-    player2 = Player('josh')
+    player2 = Player('joshua eichhorn')
 
     backgammon = Board()
 

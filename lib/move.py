@@ -12,29 +12,55 @@ class Move:
         self.player = player
 
         self.dice = []
+        self.turns = 2
         self.roll_dice()
 
+
     def roll_dice(self):
-        self.dice.append(random.randint(1,6))
-        self.dice.append(random.randint(1,6))
+        self.dice[0:0] = [random.randint(1,6), random.randint(1,6)]
+        if self.dice[0] == self.dice[1]:
+            self.dice[2:2] = [self.dice[0]] * 2
+            self.turns = 4
 
     def user_move(self):
         # add doubles behavior
         
-        turn = 0
+        turn_count = 0
         turn_over = False
-        while turn < 2:
+        while turn_count < self.turns:
 
-            if len(self.dice) == 2:
-                time.sleep(1)
-                print(f"Your turn, {self.player.name}!")
-                time.sleep(1)
-                print(f'You rolled: {*self.dice,}')
-            else:
-                time.sleep(1)
-                print(f'Still your turn, {self.player.name}!')
-                time.sleep(1)
-                print(f'Your remaining roll: ({self.dice[0]})')
+            if self.turns == 4:    
+                if len(self.dice) == 4:
+                    time.sleep(1)
+                    print(f"Your turn, {self.player.name} ({self.player.color.title()})!")
+                    time.sleep(1)
+                    print(f'You rolled: {*self.dice[0:2],}')
+                    time.sleep(1)
+                    print(f'You rolled doubles, {self.player.name}! You have {len(self.dice)} turns left!')
+                elif len(self.dice) == 3 or len(self.dice) == 2:
+                    time.sleep(1)
+                    print(f'Still your turn, {self.player.name} ({self.player.color.title()})!')
+                    time.sleep(1)
+                    print(f'You rolled: {*self.dice[0:2],}')
+                    time.sleep(1)
+                    print(f'You rolled doubles, {self.player.name}! You have {len(self.dice)} turns left!')
+                elif len(self.dice) == 1:
+                    print(self.dice)
+                    time.sleep(1)
+                    print(f'One more turn, {self.player.name} ({self.player.color.title()})!')
+                    time.sleep(1)
+                    print(f'Your remaining roll: ({self.dice[0]})')
+            elif self.turns == 2:
+                if len(self.dice) == 2:
+                    time.sleep(1)
+                    print(f"Your turn, {self.player.name} ({self.player.color.title()})!")
+                    time.sleep(1)
+                    print(f'You rolled: {*self.dice,}')
+                else:
+                    time.sleep(1)
+                    print(f'Still your turn, {self.player.name} ({self.player.color.title()})!')
+                    time.sleep(1)
+                    print(f'Your remaining roll: ({self.dice[0]})')
 
             valid_origin = False
             valid_destination = False
@@ -73,7 +99,7 @@ class Move:
                     possible_destinations = self.generate_possible_destinations(int(origin_column))
 
             if turn_over == True:
-                turn = 2
+                turn_count = self.turns
                 self.clear()
                 self.board.columns_ascii = []
                 self.board.create_board()
@@ -138,7 +164,7 @@ class Move:
             self.clear()
             self.board.columns_ascii = []
             self.board.create_board()
-            turn += 1
+            turn_count += 1
 
 
 
