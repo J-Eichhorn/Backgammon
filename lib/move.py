@@ -19,6 +19,7 @@ class Move:
         self.dice.append(random.randint(1,6))
 
     def user_move(self):
+        # add doubles behavior
         
         turn = 0
         turn_over = False
@@ -45,7 +46,7 @@ class Move:
                 if self.player.color == 'red':
                     origin_column = 0
                 elif self.player.color == 'white':
-                    origin_column = 24
+                    origin_column = 25
 
             possible_destinations = self.generate_possible_destinations(int(origin_column))
 
@@ -174,7 +175,6 @@ class Move:
             self.board.columns[i].set_occupied()
 
     def clear(self):
-
         if os.name == 'nt':
             _ = os.system('cls')
         else:
