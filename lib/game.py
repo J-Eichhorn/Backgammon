@@ -18,8 +18,15 @@ if __name__ == '__main__':
     
     clear()
 
-    player1 = Player('racquel')
-    player2 = Player('joshua eichhorn')
+    player1_name = input('Player 1 name: ')
+    player1 = Player(player1_name.title())
+    player2_name = input('Player 2 name: ')
+    player2 = Player(player2_name.title())
+
+    clear()
+
+    # player1 = Player('racquel')
+    # player2 = Player('joshua eichhorn')
 
     backgammon = Board()
 

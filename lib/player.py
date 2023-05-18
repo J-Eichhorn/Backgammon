@@ -17,7 +17,8 @@ class Player:
         if isinstance(name, str) and 1 <= len(name) <= 25:
             self._name = name
         else:
-            raise Exception("Please enter a valid name.")
+            # raise Exception("Please enter a valid name.")
+            self._name = input('Please enter a valid name: ')
         
     name = property(get_name, set_name)
 
