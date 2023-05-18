@@ -182,7 +182,10 @@ class Move:
             else:
                 self.dice.remove(abs(destination_column - origin_column))
             self.recreate_board()
-            turn_count += 1
+            if self.player.score == 15:
+                turn_count = self.turns
+            else:
+                turn_count += 1
 
 
 

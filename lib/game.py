@@ -21,7 +21,7 @@ if __name__ == '__main__':
     player1_name = input('Player 1 name: ')
     player1 = Player(player1_name.title())
     player2_name = input('Player 2 name: ')
-    player2 = Player(player2_name.title())
+    player2 = Player(player2_name.title(), 14)
 
     clear()
 
@@ -30,11 +30,21 @@ if __name__ == '__main__':
 
     backgammon = Board()
 
-    for i in range(3):
+    # for i in range(3):
+    #     move1 = Move(backgammon, player1)
+    #     move2 = Move(backgammon, player2)
+    #     move1.user_move()
+    #     move2.user_move()
+
+    while player1.score < 15 and player2.score < 15:
         move1 = Move(backgammon, player1)
-        move2 = Move(backgammon, player2)
         move1.user_move()
-        move2.user_move()
+        if player1.score == 15:
+            break
+        else:
+            move2 = Move(backgammon, player2)
+            move2.user_move()
+    print('game over')
 
 
 
