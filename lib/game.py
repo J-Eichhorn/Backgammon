@@ -8,7 +8,6 @@ import os
 
 if __name__ == '__main__':
 
-    
     def clear():
 
         if os.name == 'nt':
@@ -25,16 +24,7 @@ if __name__ == '__main__':
 
     clear()
 
-    # player1 = Player('racquel')
-    # player2 = Player('joshua eichhorn')
-
     backgammon = Board()
-
-    # for i in range(3):
-    #     move1 = Move(backgammon, player1)
-    #     move2 = Move(backgammon, player2)
-    #     move1.user_move()
-    #     move2.user_move()
 
     while player1.score < 15 and player2.score < 15:
         move1 = Move(backgammon, player1)
