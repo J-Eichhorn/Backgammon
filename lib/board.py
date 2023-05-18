@@ -21,8 +21,8 @@ class Board:
             self.columns.append(Column(i + 1))
 
     def starting_position(self):
-        # self.columns[0].num_pieces = 2
-        # self.columns[0].color_status = 'red'
+        self.columns[0].num_pieces = 2
+        self.columns[0].color_status = 'red'
         self.columns[23].num_pieces = 2
         self.columns[23].color_status = 'white'
         self.columns[5].num_pieces = 5
@@ -31,10 +31,10 @@ class Board:
         self.columns[18].color_status = 'red'
         self.columns[7].num_pieces = 3
         self.columns[7].color_status = 'white'
-        # self.columns[16].num_pieces = 3
-        # self.columns[16].color_status = 'red'
-        # self.columns[11].num_pieces = 5
-        # self.columns[11].color_status = 'red'
+        self.columns[16].num_pieces = 3
+        self.columns[16].color_status = 'red'
+        self.columns[11].num_pieces = 5
+        self.columns[11].color_status = 'red'
         self.columns[12].num_pieces = 5
         self.columns[12].color_status = 'white'
         self.columns[22].num_pieces = 10
