@@ -5,13 +5,15 @@
 
 We built a CLI application to play Backgammon! Backgammon is a two-player game in which both players roll dice to try to maneuver their pieces around the board and score them. The first player to 15 wins!
 
+![Backgammon](Backgammon_Display.png)
+
 In order to build our game, we set up 5 classes:
 
 .
 ├── Pipfile
 ├── Pipfile.lock
 ├── README.md
-└── lib
+└── lib<
     ├── game.py
     ├── board.py
     ├── player.py
@@ -19,7 +21,8 @@ In order to build our game, we set up 5 classes:
     ├── move.py
     └── debug.py
 
-The Game class initializes our game by calling the board to render and asking for user input to create players. 
+
+The Game CLI initializes our game by calling the board to render and asking for user input to create players. 
 
 The Board class initially creates 24 columns and sets up the pieces in the starting position. The Board class is also responsible for updating the rendering of the board and the location and color of the pieces. 
 
