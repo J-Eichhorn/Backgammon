@@ -129,7 +129,7 @@ class Move:
                                     try:
                                         int(dice_input)
                                         dice_input = int(dice_input)
-                                        if dice_input in self.dice:
+                                        if dice_input in self.dice: # here we need to make sure the correct die out of the 2 is being selected
                                             break
                                         else:
                                             dice_input = input('Please enter a valid die: ')
@@ -159,7 +159,8 @@ class Move:
                     if (self.board.columns[destination_column - 1].color_status == self.player.color or self.board.columns[destination_column - 1].color_status == "None") and (self.player.direction == check_direction):
                         self.board.columns[destination_column - 1].num_pieces += 1
                         self.board.columns[destination_column - 1].color_status = self.player.color
-                        self.maneuver_pieces(origin_column)
+                        if 0 < origin_column < 25:
+                            self.maneuver_pieces(origin_column)
 
                         valid_destination = True
 
