@@ -37,8 +37,16 @@ class Board:
         self.columns[11].color_status = 'red'
         self.columns[12].num_pieces = 5
         self.columns[12].color_status = 'white'
-        # self.columns[23].num_pieces = 1
-        # self.columns[23].color_status = 'red'
+
+        # to simulate endgame
+        # self.columns[20].num_pieces = 1
+        # self.columns[20].color_status = 'red'
+        # self.columns[14].num_pieces = 1
+        # self.columns[14].color_status = 'red'
+        # self.columns[3].num_pieces = 1
+        # self.columns[3].color_status = 'white'
+
+
      
 
         for i in range(24):

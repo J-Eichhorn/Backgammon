@@ -18,6 +18,7 @@ class Move:
 
     def roll_dice(self):
         self.dice[0:0] = [random.randint(1,6), random.randint(1,6)]
+        # self.dice[0:0] = [6,3]
         if self.dice[0] == self.dice[1]:
             self.dice[2:2] = [self.dice[0]] * 2
             self.turns = 4
@@ -129,7 +130,7 @@ class Move:
                                     try:
                                         int(dice_input)
                                         dice_input = int(dice_input)
-                                        if dice_input in self.dice: # here we need to make sure the correct die out of the 2 is being selected
+                                        if (dice_input in self.dice) and (origin_column + dice_input > 24 or origin_column - dice_input < 0):
                                             break
                                         else:
                                             dice_input = input('Please enter a valid die: ')
