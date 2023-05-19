@@ -29,6 +29,9 @@ The Column class is responsible for keeping track of how many pieces are in each
 
 The Move class contains all of the logic for the game. Here, columns are updated with current numbers of pieces and occupying color after each turn. Each move is validated per the rules of the game, ensuring that a user is moving the amount of spaces corresponding to their die rolls and that each move is legal. User input is also validated to make sure that a user is only inputting what the game can understand. 
 
+## Installation and Running the Game
+In order to install all of the packages in our Pipfile, first enter pipenv install and then pipenv shell. Once inside the shell, to run the game, enter python lib/game.py. 
+
 ## Quick Rules of Backgammon
 
 1. Players take turns rolling dice. On a player's turn, they enter an origin column to move from and then enter a valid destination column according to their die rolls. 
